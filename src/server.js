@@ -2,12 +2,14 @@ import 'dotenv/config'
 import express from 'express'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
+import { ApolloServer } from 'apollo-server-express'
 import i18n from 'i18n'
 import passport from 'passport'
 import helmet from 'helmet'
 import compression from 'compression'
 import rateLimit from 'express-rate-limit'
 import cors from 'cors'
+import { typeDefs, resolvers } from './graphql'
 import errorHandler from './middlewares/error.handler.middleware'
 import appRoute from './routes/app.route'
 import authenticateRoute from './routes/authenticate.route'
@@ -43,7 +45,18 @@ app.use(express.static('public'))
 // Set locale
 app.use((req, res, next) => {
     i18n.setLocale(req.get('X-Language') || 'mn')
+    next()
 })
+
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: ({ req }) => ({
+        user: req.user
+    })
+})
+
+server.applyMiddleware({ app })
 
 // Authentication routes
 app.use('/api', authenticateRoute)
