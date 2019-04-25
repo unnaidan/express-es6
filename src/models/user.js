@@ -65,7 +65,7 @@ class UserClass {
     /**
      * Return a listing of the model
      *
-     * @param {object} params
+     * @param {Object} params
      * @return {Promise}
      */
     static get(params) {
