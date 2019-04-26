@@ -9,7 +9,7 @@ import helmet from 'helmet'
 import compression from 'compression'
 import rateLimit from 'express-rate-limit'
 import cors from 'cors'
-import { typeDefs, resolvers } from './graphql'
+import schema from './graphql'
 import errorHandler from './middlewares/error.handler.middleware'
 import appRoute from './routes/app.route'
 import authenticateRoute from './routes/authenticate.route'
@@ -49,8 +49,7 @@ app.use((req, res, next) => {
 })
 
 const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+    schema,
     context: ({ req }) => ({
         user: req.user
     })
