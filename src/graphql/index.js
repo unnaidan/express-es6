@@ -1,63 +1,44 @@
+import { merge } from 'lodash'
 import { gql } from 'apollo-server-express'
-import {User, SocialAccount } from './../models'
+import { makeExecutableSchema } from 'graphql-tools';
+import {
+    typeDef as User,
+    resolvers as userResolvers
+} from './user'
+import {
+    typeDef as SocialAccount,
+    resolvers as socialAccountResolvers
+} from './social.account'
 
-const typeDefs = gql`
-    type User {
-        _id: String
-        name: String
-        email: String
-        socialAccounts: [SocialAccount]
-    }
-
-    type SocialAccount {
-        user: User
-        provider: String
-        providerId: String
-    }
-
+const Query = gql`
     type Query {
-        user(_id: String): User
-        users: [User]
+        _empty: String
     }
 
     type Mutation {
-        addUser(email: String, password: String): User
-        updateUser(_id: String, name: String, email: String): User
-        addSocialAccount(user: String, provider: String, providerId: String): SocialAccount
+        test(arg: String): String
     }
 `
 
 const resolvers = {
-    Query: {
-        user(parent, { _id }) {
-            return User.findOne({ _id })
-        },
-        users() {
-            return User.find({})
-        }
-    },
     Mutation: {
-        addUser(parent, { email, password }) {
-            return User.create({
-                email,
-                password: User.hashPassword(password)
-            })
-        },
-        updateUser(parent, { _id, name, email }) {
-            return User.findByIdAndUpdate(_id, { name, email }, { new: true })
-        },
-        addSocialAccount(parent, args) {
-            return SocialAccount.create(args)
-        }
-    },
-    User: {
-        socialAccounts(user) {
-            return SocialAccount.find({ user })
+        test(parent, arg) {
+            return arg
         }
     }
 }
 
-export {
-    typeDefs,
-    resolvers
-}
+const schema = makeExecutableSchema({
+    typeDefs: [
+        User,
+        SocialAccount,
+        Query
+    ],
+    resolvers: merge(
+        resolvers,
+        userResolvers,
+        socialAccountResolvers
+    )
+})
+
+export default schema
