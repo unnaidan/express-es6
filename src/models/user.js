@@ -84,7 +84,7 @@ class UserClass {
             // Pagination
             .skip(perPage * (page - 1))
             .limit(perPage)
-            .selecy('-password')
+            .select('-password')
             .exec()
     }
 }

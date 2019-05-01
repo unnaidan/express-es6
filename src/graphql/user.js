@@ -1,22 +1,22 @@
 import { gql } from 'apollo-server-express'
-import { User, SocialAccount } from './../models'
+import { UserService, SocialAccountService } from './../services'
 
 const typeDef = gql`
     type User {
-        _id: String
+        _id: String!
         name: String
-        email: String
+        email: String!
         socialAccounts: [SocialAccount]
     }
 
     extend type Query {
-        user(_id: String): User
-        users: [User]
+        user(_id: String!): User
+        users(page: Int, perPage: Int, sortBy: String, sortOrder: String): [User]
     }
 
     extend type Mutation {
-        register(email: String, password: String): User
-        updateUser(_id: String, name: String, email: String): User
+        register(email: String!, password: String!): User
+        updateUser(_id: String!, name: String, email: String): User
     }
 `
 
@@ -31,18 +31,16 @@ const resolvers = {
          */
         user(parent, args) {
             const { _id } = args
-            return User.findOne({ _id })
+            return UserService.find(_id)
         },
 
         /**
          * Return users.
          * 
-         * @param {*} parent
-         * @param {Object} args
          * @returns {Array}
          */
-        users() {
-            return User.find({})
+        users(parent, args) {
+            return UserService.get(args)
         }
     },
     Mutation: {
@@ -55,11 +53,12 @@ const resolvers = {
          */
         register(parent, args) {
             const { email, password } = args
-            return User.create({
+            return UserService.store({
                 email,
                 password: User.hashPassword(password)
             })
         },
+
         /**
          * Update user.
          * 
@@ -69,7 +68,7 @@ const resolvers = {
          */
         updateUser(parent, args) {
             const { _id, name, email } = args
-            return User.findByIdAndUpdate(_id, { name, email }, { new: true })
+            return UserService.update(_id, { name, email }, { new: true })
         }
     },
     User: {
@@ -80,7 +79,7 @@ const resolvers = {
          * @returns {Array}
          */
         socialAccounts(user) {
-            return SocialAccount.find({ user })
+            return SocialAccountService.getByUser(user)
         }
     }
 }
