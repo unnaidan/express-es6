@@ -52,11 +52,7 @@ const resolvers = {
          * @returns {User}
          */
         register(parent, args) {
-            const { email, password } = args
-            return UserService.store({
-                email,
-                password: User.hashPassword(password)
-            })
+            return UserService.store(args)
         },
 
         /**

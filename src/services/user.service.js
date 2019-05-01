@@ -21,14 +21,29 @@ const find = async (id) => {
 }
 
 /**
+ * Find model by email.
+ * 
+ * @param {string} email 
+ * @returns {Promise}
+ */
+const findByEmail = async (email) => {
+    return await User.findOne({ email })
+}
+
+/**
  * Store the model in storage.
  * 
  * @param {Object} params 
  * @returns {Promise}
  */
 const store = async (params) => {
-    const { name, email } = params
-    return await User.create({ name, email })
+    const { email, password } = params
+    const data = {
+        email,
+        password: password && User.hashPassword(password) || null
+    }
+
+    return await User.create(data)
 }
 
 /**
@@ -39,7 +54,7 @@ const store = async (params) => {
  * @returns {Promise}
  */
 const update = async (id, params) => {
-    const  { name, email } = params
+    const { name, email } = params
     return await User.findByIdAndUpdate(id, { name, email }, { new: true })
 }
 
@@ -56,6 +71,7 @@ const destroy = async (id) => {
 export default {
     get,
     find,
+    findByEmail,
     store,
     update,
     destroy

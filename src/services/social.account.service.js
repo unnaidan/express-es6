@@ -11,6 +11,20 @@ const getByUser = async (user) => {
 }
 
 /**
+ * Return the model by provder.
+ * 
+ * @param {string} provider 
+ * @param {string} id 
+ * @returns {Promise}
+ */
+const findByProvider = async (provider, id) => {
+    return await SocialAccount.findOne({
+        provider,
+        providerId: id
+    })
+}
+
+/**
  * Store the model in storage.
  * 
  * @param {Object} params 
@@ -29,18 +43,8 @@ const store = async (params) => {
     })
 }
 
-/**
- * Remove the model from storage
- *
- * @param {string} id 
- * @returns {Promise}
- */
-const destroy = async (id) => {
-    return await SocialAccount.findByIdAndRemove(id)
-}
-
 export default {
     getByUser,
-    store,
-    destroy
+    findByProvider,
+    store
 }
