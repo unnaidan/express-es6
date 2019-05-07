@@ -8,17 +8,17 @@ import {
     SocialAccountService
 } from './../services'
 
-const googleConfig = {
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: '/google/callback'
-}
+// const googleConfig = {
+//     clientID: process.env.GOOGLE_CLIENT_ID,
+//     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//     callbackURL: '/google/callback'
+// }
 
-const facebookConfig = {
-    clientID: process.env.FACEBOOK_APP_ID,
-    clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: '/facebook/callback'
-}
+// const facebookConfig = {
+//     clientID: process.env.FACEBOOK_APP_ID,
+//     clientSecret: process.env.FACEBOOK_APP_SECRET,
+//     callbackURL: '/facebook/callback'
+// }
 
 passport.use(new BearerStrategy(async (token, done) => {
     try {
@@ -31,38 +31,38 @@ passport.use(new BearerStrategy(async (token, done) => {
     }
 }))
 
-passport.use(new GoogleStrategy(googleConfig, async (
-    accessToken,
-    refreshToken,
-    profile,
-    done
-) => {
-    try {
-        let user = null
-        const { id, provider, emails } = profile
+// passport.use(new GoogleStrategy(googleConfig, async (
+//     accessToken,
+//     refreshToken,
+//     profile,
+//     done
+// ) => {
+//     try {
+//         let user = null
+//         const { id, provider, emails } = profile
 
-        // Find or create user
+//         // Find or create user
 
-        done(null, user || false)
-    } catch (err) {
-        done(err)
-    }
-}))
+//         done(null, user || false)
+//     } catch (err) {
+//         done(err)
+//     }
+// }))
 
-passport.use(new FacebookStrategy(facebookConfig, async (
-    accessToken,
-    refreshToken,
-    profile,
-    done
-) => {
-    try {
-        let user = null
-        const { id, provider, emails } = profile
+// passport.use(new FacebookStrategy(facebookConfig, async (
+//     accessToken,
+//     refreshToken,
+//     profile,
+//     done
+// ) => {
+//     try {
+//         let user = null
+//         const { id, provider, emails } = profile
 
-        // Find or create user
+//         // Find or create user
 
-        done(null, user || false)
-    } catch (err) {
-        done(err)
-    }
-}))
+//         done(null, user || false)
+//     } catch (err) {
+//         done(err)
+//     }
+// }))

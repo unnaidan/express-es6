@@ -10,6 +10,7 @@ import compression from 'compression'
 import rateLimit from 'express-rate-limit'
 import cors from 'cors'
 import schema from './graphql'
+import authMiddleware from './middlewares/auth.middleware'
 import errorHandler from './middlewares/error.handler.middleware'
 import appRoute from './routes/app.route'
 import authenticateRoute from './routes/authenticate.route'
@@ -47,6 +48,9 @@ app.use((req, res, next) => {
     i18n.setLocale(req.get('X-Language') || 'mn')
     next()
 })
+
+// Attach authenticated user to request
+app.use(authMiddleware)
 
 const server = new ApolloServer({
     schema,
