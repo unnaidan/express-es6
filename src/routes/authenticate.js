@@ -1,9 +1,9 @@
 import express from 'express'
-import validate from './../middlewares/validate.middleware'
-import forgotPassword from './../controllers/auth/forgot.password.controller'
-import login from './../controllers/auth/login.controller'
-import register from './../controllers/auth/register.controller'
-import resetPassword from './../controllers/auth/reset.password.controller'
+import validate from './../middlewares/validate'
+import forgotPassword from './../controllers/auth/forgot.password'
+import login from './../controllers/auth/login'
+import register from './../controllers/auth/register'
+import resetPassword from './../controllers/auth/reset.password'
 
 const router = express.Router()
 

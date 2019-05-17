@@ -1,7 +1,7 @@
-import UserService from './user.service'
-import SocialAccountService from './social.account.service'
+import user from './user'
+import socialAccount from './social.account'
 
 export {
-    UserService,
-    SocialAccountService
+    user,
+    socialAccount
 }

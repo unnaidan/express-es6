@@ -1,5 +1,5 @@
 import { gql } from 'apollo-server-express'
-import { UserService } from './../services'
+import { user as userService } from './../services'
 
 const typeDef = gql`
     type SocialAccount {
@@ -18,7 +18,7 @@ const resolvers = {
          * @returns {User}
          */
         user(socialAccount) {
-            return UserService.find(socialAccount.user)
+            return userService.find(socialAccount.user)
         }
     }
 }

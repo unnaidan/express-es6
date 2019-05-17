@@ -4,8 +4,8 @@ import { Strategy as BearerStrategy } from 'passport-http-bearer'
 import { Strategy as FacebookStrategy } from 'passport-facebook'
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth'
 import {
-    UserService,
-    SocialAccountService
+    user as userService,
+    socialAccount as socialAccountService
 } from './../services'
 
 // const googleConfig = {
@@ -23,7 +23,7 @@ import {
 passport.use(new BearerStrategy(async (token, done) => {
     try {
         const payload = jwt.verify(token, process.env.SECRET)
-        const user = await UserService.find(payload._id)
+        const user = await userService.find(payload._id)
 
         done(null, user || false)
     } catch (err) {
