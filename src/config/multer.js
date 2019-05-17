@@ -13,6 +13,22 @@ const s3 = new aws.S3({
 })
 
 /**
+ * Validate file
+ * 
+ * @param {Object} req 
+ * @param {Object} file 
+ * @param {Function} done 
+ */
+const fileFilter = (req, file, done) => {
+    const types = [
+        'image/png',
+        'image/jpeg'
+    ]
+
+    done(null, types.includes(file.mimetype))
+}
+
+/**
  * Generate unique file name
  * 
  * @param {Object} req 
@@ -47,4 +63,7 @@ const storage = multerS3({
     bucket: process.env.AWS_BUCKET
 })
 
-export default multer({ storage })
+export default multer({
+    fileFilter,
+    storage
+})
