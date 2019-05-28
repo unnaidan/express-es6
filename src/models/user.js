@@ -15,8 +15,7 @@ const userSchema = new Schema({
     },
     email: {
         type: String,
-        unique: true,
-        lowercase: true
+        unique: true
     },
     password: {
         type: String
@@ -28,7 +27,7 @@ class UserClass {
      * Compare password
      * 
      * @param {string} password
-     * @return {boolean}
+     * @returns {boolean}
      */
     validPassword(password) {
         return bcrypt.compareSync(password, this.password)
@@ -37,7 +36,7 @@ class UserClass {
     /**
      * Generate token
      * 
-     * @return {string}
+     * @returns {string}
      */
     generateToken() {
         const options = {
@@ -54,7 +53,7 @@ class UserClass {
      * Hash password
      * 
      * @param {string} password
-     * @return {string}
+     * @returns {string}
      */
     static hashPassword(password) {
         const salt = bcrypt.genSaltSync(10)
@@ -66,7 +65,7 @@ class UserClass {
      * Return a listing of the model
      *
      * @param {Object} params
-     * @return {Promise}
+     * @returns {Promise}
      */
     static get(params) {
         const {
@@ -84,7 +83,7 @@ class UserClass {
             // Pagination
             .skip(perPage * (page - 1))
             .limit(perPage)
-            .selecy('-password')
+            .select('-password')
             .exec()
     }
 }

@@ -1,31 +1,15 @@
 import { gql } from 'apollo-server-express'
-import { User, SocialAccount } from './../models'
+import { user as userService } from './../services'
 
 const typeDef = gql`
     type SocialAccount {
-        user: User
-        provider: String
-        providerId: String
-    }
-
-    extend type Mutation {
-        addSocialAccount(user: String, provider: String, providerId: String): SocialAccount
+        user: User!
+        provider: String!
+        providerId: String!
     }
 `
 
 const resolvers = {
-    Mutation: {
-        /**
-         * Create new social account.
-         * 
-         * @param {*} parent
-         * @param {Object} args
-         * @returns {SocialAccount}
-         */
-        addSocialAccount(parent, args) {
-            return SocialAccount.create(args)
-        }
-    },
     SocialAccount: {
         /**
          * Return social accounts by user id.
@@ -34,7 +18,7 @@ const resolvers = {
          * @returns {User}
          */
         user(socialAccount) {
-            return User.findById(socialAccount.user)
+            return userService.find(socialAccount.user)
         }
     }
 }

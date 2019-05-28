@@ -28,7 +28,7 @@ class passwordResetClass {
      * Compare token
      * 
      * @param {string} token
-     * @return {boolean}
+     * @returns {boolean}
      */
     isValid(token) {
         return bcrypt.compareSync(token, this.token)
@@ -37,7 +37,7 @@ class passwordResetClass {
     /**
      * Check token date
      * 
-     * @return {boolean}
+     * @returns {boolean}
      */
     isAvailable() {
         // Token life time
@@ -52,7 +52,7 @@ class passwordResetClass {
     /**
      * Generate token
      * 
-     * @return {string}
+     * @returns {string}
      */
     generateToken() {
         return randomstring.generate({
@@ -65,7 +65,7 @@ class passwordResetClass {
      * Hash token
      * 
      * @param {string} token
-     * @return {string}
+     * @returns {string}
      */
     static hashToken(token) {
         const salt = bcrypt.genSaltSync(10)
