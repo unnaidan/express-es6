@@ -21,6 +21,7 @@
         "express-rate-limit": "^3.4.0",
         "express-validator": "^5.3.1",
         "graphql": "^14.2.1",
+        "graphql-import": "^0.7.1",
         "graphql-tools": "^4.0.4",
         "helmet": "^3.16.0",
         "i18n": "^0.8.3",
