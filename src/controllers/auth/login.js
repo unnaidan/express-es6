@@ -1,13 +1,11 @@
-import User from '../../models/user'
+import createError from 'http-errors'
+import { user as userService } from '../../services'
 
-const validator = {
+const schema = {
     email: {
         isEmpty: {
             errorMessage: 'Please enter an email address',
             negated: true
-        },
-        isEmail: {
-            errorMessage: 'Please enter a valid email address'
         }
     },
     password: {
@@ -23,17 +21,17 @@ const validator = {
  *
  * @public
  */
-const login = async (req, res, next) => {
+const index = async (req, res, next) => {
     try {
-        const { email, password } = req.body
-        const user = await User.findOne({ email })
+        const {
+            email,
+            password
+        } = req.body
+
+        const user = await userService.findByEmail(email)
 
         if (!user || !user.validPassword(password)) {
-            const errors = {
-                email: 'Sorry, your password was incorrect'
-            }
-            
-            return res.status(422).json({ errors })
+            throw new createError(422, 'Validation errors')
         }
 
         const token = user.generateToken()
@@ -44,6 +42,6 @@ const login = async (req, res, next) => {
 }
 
 export default {
-    validator,
-    login
+    schema,
+    index
 }

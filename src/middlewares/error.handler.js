@@ -1,5 +1,12 @@
 export default (err, req, res, next) => {
-    res.status(err.status || 500).json({
-        error: err
+    const {
+        status = 500,
+        message = 'Internal server error',
+        errors
+    } = err
+
+    res.status(status).json({
+        message,
+        errors: errors || undefined
     })
 }

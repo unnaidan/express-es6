@@ -37,7 +37,11 @@ const findByEmail = async (email) => {
  * @returns {Promise}
  */
 const store = async (params) => {
-    const { email, password } = params
+    const {
+        email,
+        password
+    } = params
+
     const data = {
         email,
         password: password && User.hashPassword(password) || null
@@ -54,8 +58,19 @@ const store = async (params) => {
  * @returns {Promise}
  */
 const update = async (id, params) => {
-    const { name, email } = params
-    return await User.findByIdAndUpdate(id, { name, email }, { new: true })
+    const {
+        name,
+        surname,
+        email
+    } = params
+
+    const data = {
+        name,
+        surname,
+        email
+    }
+
+    return await User.findByIdAndUpdate(id, data, { new: true })
 }
 
 /**

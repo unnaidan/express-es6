@@ -1,4 +1,4 @@
-import QRCode from 'qrcode'
+import createError from 'http-errors'
 
 /**
  * Upload image to s3 storage
@@ -6,32 +6,15 @@ import QRCode from 'qrcode'
  * @public
  */
 const upload = async (req, res, next) => {
+    if (!req.file) {
+        throw new createError(500, 'Unprocessable entity')
+    }
+
     res.json({
-        path: req.file.location
+        path: req.file.filename
     })
 }
 
-/**
- * Generate QR code
- *
- * @public
- */
-const generateQR = async (req, res, next) => {
-    try {
-        const { text } = req.params
-        const data = await QRCode.toDataURL(text)
-
-        // Convert to buffer
-        const image = Buffer.from(data.split(',').pop(), 'base64')
-
-        res.append('Content-Type', 'image/png')
-        res.end(image)
-    } catch (e) {
-        next(e)
-    }
-}
-
 export default {
-    upload,
-    generateQR
+    upload
 }

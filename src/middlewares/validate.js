@@ -1,7 +1,11 @@
-import { checkSchema, validationResult } from 'express-validator/check'
+import {
+    checkSchema,
+    validationResult
+} from 'express-validator/check'
+import createError from 'http-errors'
 
 const result = validationResult.withDefaults({
-    formatter: err => err.msg
+    formatter: ({ msg }) => msg
 })
 
 export default schema => [
@@ -10,7 +14,7 @@ export default schema => [
         const errors = result(req)
 
         if (!errors.isEmpty()) {
-            return res.status(422).json({
+            throw new createError(422, 'Validation errors', {
                 errors: errors.mapped()
             })
         }

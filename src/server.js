@@ -9,6 +9,8 @@ import helmet from 'helmet'
 import compression from 'compression'
 import rateLimit from 'express-rate-limit'
 import cors from 'cors'
+import createError from 'http-errors'
+import path from 'path'
 import schema from './graphql'
 import authMiddleware from './middlewares/auth'
 import errorHandler from './middlewares/error.handler'
@@ -41,7 +43,7 @@ app.use(
 app.use(i18n.init)
 
 // Serving static files
-app.use(express.static('public'))
+app.use(express.static(path.join(__dirname, './../public')))
 
 // Set locale
 app.use((req, res, next) => {
@@ -67,9 +69,8 @@ app.use('/api', authenticateRoute)
 app.use('/api', appRoute)
 
 // Handle 404 error
-app.use((req, res, next) => {
-    const err = new Error('No HTTP resource was found that matches the request URI')
-    next(err)
+app.use(() => {
+    throw new createError(404, 'No HTTP resource was found that matches the request URI')
 })
 
 // Handle all errors

@@ -1,6 +1,6 @@
-import User from '../../models/user'
+import { user as userService } from './../../services'
 
-const validator = {
+const schema = {
     email: {
         isEmpty: {
             errorMessage: 'Please enter an email address',
@@ -27,22 +27,25 @@ const validator = {
  *
  * @public
  */
-const register = async (req, res, next) => {
+const index = async (req, res, next) => {
     try {
-        const { email, password } = req.body
-        const user = await User.create({
+        const {
             email,
-            password: User.hashPassword(password)
+            password
+        } = req.body
+
+        const user = await userService.store({
+            email,
+            password
         })
 
-        const token = user.generateToken()
-        res.json({ token })
+        res.json({ user })
     } catch (e) {
         next(e)
     }
 }
 
 export default {
-    validator,
-    register
+    schema,
+    index
 }

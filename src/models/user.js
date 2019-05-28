@@ -13,12 +13,19 @@ const userSchema = new Schema({
     name: {
         type: String
     },
+    surname: {
+        type: String
+    },
     email: {
         type: String,
         unique: true
     },
     password: {
         type: String
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
     }
 }, options)
 
@@ -39,12 +46,17 @@ class UserClass {
      * @returns {string}
      */
     generateToken() {
+        const {
+            SECRET,
+            TOKEN_LIFETIME
+        } = process.env
+
         const options = {
-            expiresIn: process.env.TOKEN_LIFETIME
+            expiresIn: parseInt(TOKEN_LIFETIME)
         }
 
         const payload = this.toJSON()
-        const token = jwt.sign(payload, process.env.SECRET, options)
+        const token = jwt.sign(payload, SECRET, options)
 
         return token
     }
