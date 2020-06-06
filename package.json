@@ -9,7 +9,7 @@
     "author": "Unn LLC",
     "license": "ISC",
     "dependencies": {
-        "apollo-server-express": "^2.4.8",
+        "apollo-server-express": "^2.14.2",
         "aws-sdk": "^2.437.0",
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.18.3",
